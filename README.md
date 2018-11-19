@@ -5,10 +5,11 @@ A script to help import packages into a gorilla catalog for software distributio
 The script assumes it is being run inside the [gorilla](https://github.com/1dustindavis/gorilla) repository.
 It collects the following:
 
-1. Item Name
-2. Display Name
-3. Package Path
-4. Version
+1. Desired Catalog
+2. Item Name
+3. Display Name
+4. Package Path
+5. Version
 
 It also generates an SHA 256 hash of the installer file being imported.
 
