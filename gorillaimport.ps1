@@ -9,7 +9,7 @@ $catalog = Read-Host -Prompt 'Name of desired catalog (.yaml)'
 $itemname = Read-Host -Prompt 'Item name'
 $displayname = Read-Host -Prompt 'Display Name'
 $pkgpath = Read-Host -Prompt 'Install Item Location (packages\example.exe)'
-$version = Read-Host -Prompt 'Package version'
+$version = Get-ItemProperty "$pkgpath" -Name VersionInfo | Select-Object -ExpandProperty VersionInfo | Select-Object -ExpandProperty ProductVersion  
 
 #Get SHA256 hash of installer
 $filehash = Get-FileHash -Path $pkgpath
