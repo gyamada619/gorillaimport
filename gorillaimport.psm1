@@ -1,17 +1,28 @@
+#This module assumes you are running it inside your gorilla repo directory.
+#Credit for the gorilla project goes to @1dustindavis. Code for gorilla is at https://github.com/1dustindavis/gorilla/.
 function gorillaimport {
 
-    #This module assumes you are running it inside your gorilla repo directory.
-    #Credit for the gorilla project goes to @1dustindavis. Code for gorilla is at https://github.com/1dustindavis/gorilla/.
-
+    param
+    (
+        [string]$pkg
+    )
+  
     #Import YAML handler module
     Import-Module -Name "$PSScriptRoot/powershell-yaml"
 
-    #Collect data from user about package to import
+    #Get file name & extension from full path to installer
+    $importedfile = Split-Path $pkg -Leaf
+
+    #Set default packages directory in gorilla repo
+    $pkgpath = "packages/$importedfile"
+
+    #Collect data from user about installer to import
     $catalog = Read-Host -Prompt 'Name of desired catalog (.yaml)'
     $itemname = Read-Host -Prompt 'Item name'
     $displayname = Read-Host -Prompt 'Display Name'
-    $pkgpath = Read-Host -Prompt 'Install Item Location (packages\example.exe)'
-    $version = Get-ItemProperty "$pkgpath" -Name VersionInfo | Select-Object -ExpandProperty VersionInfo | Select-Object -ExpandProperty ProductVersion  
+
+    #Get ProductVersion from installer to be imported
+    $version = Get-ItemProperty "$pkg" -Name VersionInfo | Select-Object -ExpandProperty VersionInfo | Select-Object -ExpandProperty ProductVersion
 
     #Get SHA256 hash of installer
     $filehash = Get-FileHash -Path $pkgpath
