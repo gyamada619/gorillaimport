@@ -7,9 +7,6 @@ function gorillaimport {
     Import-Module -Name "$PSScriptRoot/powershell-yaml"
 
     #Collect data from user about package to import
-    #$test = ($PSModPath=gmo -l).path
-    #Write-Output $PSScriptRoot
-
     $catalog = Read-Host -Prompt 'Name of desired catalog (.yaml)'
     $itemname = Read-Host -Prompt 'Item name'
     $displayname = Read-Host -Prompt 'Display Name'
