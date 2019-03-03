@@ -20,16 +20,17 @@ function gorillaimport {
     $catalog = Read-Host -Prompt 'Name of desired catalog (.yaml)'
     $itemname = Read-Host -Prompt 'Item name'
     $displayname = Read-Host -Prompt 'Display Name'
+    $type = Read-Host -Prompt 'Type of installer'
 
     #Get ProductVersion from installer to be imported
-    $version = Get-ItemProperty "$pkg" -Name VersionInfo | Select-Object -ExpandProperty VersionInfo | Select-Object -ExpandProperty ProductVersion
+    #$version = Get-ItemProperty "$pkg" -Name VersionInfo | Select-Object -ExpandProperty VersionInfo | Select-Object -ExpandProperty ProductVersion
 
     #Get SHA256 hash of installer
     $filehash = Get-FileHash -Path $pkgpath
     $hashstring = $filehash.Hash
 
     #Compile user input and hash into YAML data and append it to designated catalog
-    $yaml = ConvertTo-Yaml @{"$itemname"=@{"display_name"="$displayname"; "installer_item_location"="$pkgpath"; "installer_item_hash"="$hashstring"; "version"="$version"}}
+    $yaml = ConvertTo-Yaml @{"$itemname"=@{"display_name"="$displayname"; "installer"=@{"location"="$pkgpath"; "hash"="$hashstring"; "type"="$type"}}}
     Add-Content -Path "catalogs/$catalog" -Value $yaml -Force
 
     #Let user know we're done
